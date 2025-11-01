@@ -163,7 +163,11 @@ class _LoginSignupScreenState extends State<LoginSignupScreen>
             keyboardType: TextInputType.visiblePassword,
             suffix: GestureDetector(
               onTap: () => toggleObscurePass(ObscureFields.pass),
-              child: Icon(Icons.remove_red_eye, size: 18, color: Colors.grey),
+              child: Icon(
+                obscurePass ? Icons.visibility : Icons.visibility_off,
+                size: 18,
+                color: Colors.grey,
+              ),
             ),
           ),
           if (!showLogin)
@@ -179,7 +183,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen>
                   suffix: GestureDetector(
                     onTap: () => toggleObscurePass(ObscureFields.confirmPass),
                     child: Icon(
-                      Icons.remove_red_eye,
+                      obscureConfirmPass
+                          ? Icons.visibility
+                          : Icons.visibility_off,
                       size: 18,
                       color: Colors.grey,
                     ),
