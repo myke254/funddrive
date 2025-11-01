@@ -13,6 +13,18 @@ class LoginSignupScreen extends StatefulWidget {
 class _LoginSignupScreenState extends State<LoginSignupScreen>
     with SingleTickerProviderStateMixin {
   bool showLogin = true;
+  bool obscurePass = true;
+  bool obscureConfirmPass = true;
+
+  void toggleObscurePass(ObscureFields f) {
+    if (f.name == ObscureFields.pass.name) {
+      obscurePass = !obscurePass;
+    } else {
+      obscureConfirmPass = !obscureConfirmPass;
+    }
+    setState(() {});
+  }
+
   late AnimationController _controller;
 
   @override
@@ -146,7 +158,14 @@ class _LoginSignupScreenState extends State<LoginSignupScreen>
           const SizedBox(height: 16),
           Text('Password', style: theme.textTheme.bodyMedium),
           const SizedBox(height: 8),
-          TextInputField(obscureText: true),
+          TextInputField(
+            obscureText: obscurePass,
+            keyboardType: TextInputType.visiblePassword,
+            suffix: GestureDetector(
+              onTap: () => toggleObscurePass(ObscureFields.pass),
+              child: Icon(Icons.remove_red_eye, size: 18, color: Colors.grey),
+            ),
+          ),
           if (!showLogin)
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,7 +173,18 @@ class _LoginSignupScreenState extends State<LoginSignupScreen>
                 const SizedBox(height: 16),
                 Text('Confirm Password', style: theme.textTheme.bodyMedium),
                 const SizedBox(height: 8),
-                TextInputField(obscureText: true),
+                TextInputField(
+                  obscureText: obscureConfirmPass,
+                  keyboardType: TextInputType.visiblePassword,
+                  suffix: GestureDetector(
+                    onTap: () => toggleObscurePass(ObscureFields.confirmPass),
+                    child: Icon(
+                      Icons.remove_red_eye,
+                      size: 18,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
               ],
             ),
           const SizedBox(height: 16),
@@ -197,3 +227,5 @@ class _LoginSignupScreenState extends State<LoginSignupScreen>
     );
   }
 }
+
+enum ObscureFields { pass, confirmPass }

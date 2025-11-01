@@ -48,9 +48,10 @@ class TextInputField extends StatelessWidget {
 
         hintText: hintText,
         hintStyle: TextStyle(color: Colors.grey[600]),
-        suffix: suffix,
+        suffixIcon: suffix,
       ),
       style: theme.textTheme.bodyMedium,
+      keyboardType: keyboardType,
     );
   }
 }
