@@ -99,7 +99,7 @@ class FundDetailsScreen extends StatelessWidget {
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                               const SizedBox(height: 8),
-                              SelectableText(fund.whatsappGroupId),
+                              SelectableText(fund.whatsappGroupLink),
                               const SizedBox(height: 16),
                               Text(
                                 'Bank Details (hidden for donors)',

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:funddrive/screens/dashboard/widgets/fundraiser_card.dart';
+import 'package:funddrive/screens/dashboard/widgets/summary_widgets_section.dart';
+import 'package:funddrive/screens/dashboard/widgets/welcome_dashboard.dart';
 import 'package:funddrive/widgets/base_scaffold.dart';
-import 'package:dotted_border/dotted_border.dart';
+
+import '../repository/fund_repository.dart';
+import 'dashboard/widgets/create_initiative_button.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -10,94 +14,80 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final theme = Theme.of(context);
+    final funds = FundRepository.instance.getFunds();
     return BaseScaffold(
       title: '',
       body: SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: MediaQuery.of(context).size.height / 1.7,
-          ),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: DottedBorder(
-                options: RoundedRectDottedBorderOptions(
-                  radius: Radius.circular(10),
-                  dashPattern: [10, 5],
-                  strokeWidth: 2,
-                  color: theme.dividerColor,
-                  padding: EdgeInsets.all(0),
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: theme.canvasColor,
-                  ),
-                  width: size.width / 1.8,
-
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
-                      child: SizedBox(
-                        width: size.width / 3,
-                        height: size.height / 1.5,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
+        child:
+            funds.isNotEmpty
+                ? SizedBox(
+                  width: size.width,
+                  //height: size.height,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      size.width > 1500 ? ((size.width - 1500) / 2) : 20.0,
+                      40.0,
+                      size.width > 1500 ? ((size.width - 1500) / 2) : 20.0,
+                      40.0,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SvgPicture.asset(
-                              'assets/party-popper.svg',
-                              height: 80,
-                              width: 80,
-                              colorFilter: ColorFilter.mode(
-                                theme.primaryColor,
-                                BlendMode.srcIn,
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-
-                            Text(
-                              'Welcome to your Dashboard!',
-                              style: theme.textTheme.headlineMedium,
-                              textAlign: TextAlign.center,
-                            ),
-                            Text(
-                              'You\'re all set to start making a difference. Let\'s launch your first fundraising initiative.',
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(height: 16),
-                            FilledButton(
-                              style: FilledButton.styleFrom(
-                                backgroundColor: theme.primaryColor,
-                                foregroundColor: theme.canvasColor,
-                                minimumSize: const Size(double.infinity, 48),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Your Dashboard',
+                                  style: theme.textTheme.headlineLarge
+                                      ?.copyWith(fontWeight: FontWeight.w200),
                                 ),
-                              ),
-                              onPressed:
-                                  () => Navigator.of(
-                                    context,
-                                  ).pushNamed('/create'),
-                              child: Text(
-                                'Create Your First Initiative',
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  color: theme.canvasColor,
+                                const SizedBox(height: 5),
+                                Text(
+                                  'Welcome back, Michael!',
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w200,
+                                  ),
                                 ),
-                                textAlign: TextAlign.center,
+                              ],
+                            ),
+                            SizedBox(
+                              width: 170,
+                              height: 40,
+                              child: CreateInitiativeButton(
+                                buttonText: '⊕   New Initiative',
                               ),
                             ),
-                            const SizedBox(height: 20),
                           ],
                         ),
-                      ),
+                        const SizedBox(height: 40),
+                        SummaryWidgetsSection(),
+                        SizedBox(height: 30),
+                        Text(
+                          'Your Active FundRaisers',
+                          style: theme.textTheme.headlineMedium?.copyWith(
+                            fontWeight: FontWeight.w200,
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Wrap(
+                          spacing: 24,
+                          runSpacing: 24,
+                          children:
+                              funds
+                                  .map((fund) => FundraiserCard(fund: fund))
+                                  .toList(),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ),
-            ),
-          ),
-        ),
+                )
+                : const WelcomeDashboard(),
       ),
     );
   }
