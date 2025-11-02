@@ -97,7 +97,8 @@ class _LoginSignupScreenState extends State<LoginSignupScreen>
       title: "Welcome Back!",
       subtitle: "Sign in to your account to continue",
       buttonText: "Login",
-      onButtonPressed: () => Navigator.of(context).pushNamed('/home'),
+      onButtonPressed:
+          () => Navigator.of(context).pushReplacementNamed('/home'),
       footerText: "Don't have an account? ",
       footerActionText: "Sign up",
       onFooterPressed: _toggleCard,
@@ -111,7 +112,8 @@ class _LoginSignupScreenState extends State<LoginSignupScreen>
       title: "Create Account",
       subtitle: "Join FundDrive today and start making an impact.",
       buttonText: "Sign Up",
-      onButtonPressed: () => Navigator.of(context).pushNamed('/home'),
+      onButtonPressed:
+          () => Navigator.of(context).pushReplacementNamed('/home'),
       footerText: "Already have an account? ",
       footerActionText: "Login",
       onFooterPressed: _toggleCard,

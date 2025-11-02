@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:funddrive/models/fund.dart';
 import 'package:funddrive/screens/dashboard/widgets/create_initiative_button.dart';
+import 'package:funddrive/screens/dashboard/widgets/donate_now_button.dart';
 
 class FundraiserCard extends StatelessWidget {
   const FundraiserCard({super.key, required this.fund});
@@ -50,19 +51,22 @@ class FundraiserCard extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 3,
-                    child: Text(
+                    child: SelectableText(
                       fund.title,
+                      maxLines: 1,
                       style: theme.textTheme.headlineMedium,
                     ),
                   ),
-
-                  SizedBox(height: 20),
+                  SizedBox(height: 5),
                   Expanded(
-                    flex: 12,
-                    child: Text(fund.description, softWrap: true),
+                    flex: 10,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: SelectableText(fund.description),
+                    ),
                   ),
                   Expanded(
-                    flex: 2,
+                    flex: 1,
                     child: LinearProgressIndicator(
                       borderRadius: BorderRadius.circular(15),
                       color: theme.primaryColor,
@@ -71,13 +75,12 @@ class FundraiserCard extends StatelessWidget {
                       value: fund.amountRaised / fund.goalAmount,
                     ),
                   ),
-                  SizedBox(height: 4),
                   Expanded(
                     flex: 2,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        SelectableText(
                           '\$${fund.amountRaised}',
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: theme.primaryColor,
@@ -85,14 +88,17 @@ class FundraiserCard extends StatelessWidget {
                           ),
                         ),
 
-                        Text('Raised of \$${fund.goalAmount}'),
+                        SelectableText('raised of \$${fund.goalAmount}'),
                       ],
                     ),
                   ),
-                  SizedBox(height: 12),
+                  SizedBox(height: 30),
                   Expanded(
-                    flex: 4,
-                    child: DonateNowButton(buttonText: '♡   Donate Now'),
+                    flex: 3,
+                    child: DonateNowButton(
+                      buttonText: '♡   Donate Now',
+                      fund: fund,
+                    ),
                   ),
                 ],
               ),

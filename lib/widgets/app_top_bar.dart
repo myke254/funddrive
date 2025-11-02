@@ -14,9 +14,13 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
     final ThemeData theme = Theme.of(context);
     return AppBar(
       forceMaterialTransparency: false,
+      automaticallyImplyLeading: false,
       surfaceTintColor: Colors.transparent,
       primary: true,
-      title: Text(title, style: theme.textTheme.headlineLarge),
+      title: InkWell(
+        onTap: () => Navigator.pushReplacementNamed(context, '/home'),
+        child: Text(title, style: theme.textTheme.headlineMedium),
+      ),
       actions: actions,
       centerTitle: false,
       backgroundColor: Theme.of(context).canvasColor,
